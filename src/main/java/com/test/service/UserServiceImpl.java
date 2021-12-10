@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+
     @Override
     public void update(int id, String name) throws NotFoundException {
 
