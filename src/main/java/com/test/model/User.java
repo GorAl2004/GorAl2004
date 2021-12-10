@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,6 +55,8 @@ public class User {
     @Column(unique = true)
     private String reset_password_token;
 
+    private Date appDate;
+
     private long resetPasswordTokenCreationDate;
 
     public User(){};
@@ -74,7 +77,15 @@ public class User {
     public void setResetPasswordTokenCreationDate(long resetPasswordTokenCreationDate) {
         this.resetPasswordTokenCreationDate = resetPasswordTokenCreationDate;
     }
-    
+
+    public Date getAppDate() {
+        return appDate;
+    }
+
+    public void setAppDate(Date appDate) {
+        this.appDate = appDate;
+    }
+
     public List<Authorities> getAuthorities() {
         return authorities;
     }

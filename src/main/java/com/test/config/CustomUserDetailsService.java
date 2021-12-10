@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 @Component("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {

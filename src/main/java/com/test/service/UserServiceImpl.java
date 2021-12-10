@@ -6,15 +6,13 @@ import com.test.model.Address;
 import com.test.model.Status;
 import com.test.model.User;
 import com.test.repository.UserRepository;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
-import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,7 +34,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-
         return userRepository.findAll();
     }
 
@@ -48,6 +45,7 @@ public class UserServiceImpl implements UserService {
         addressService.save(address);
         String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
+        user.setAppDate(new Date());
         userRepository.save(user);
     }
 
@@ -60,7 +58,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(newPassword);
         String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
-
+        user.setReset_password_token(null);
         userRepository.save(user);
     }
 
@@ -90,6 +88,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) throws NotFoundException{
         User user = userRepository.findByEmail(email);
+        if (new Date().getTime() - user.getAppDate().getTime()  < 364 * 24 * 60 *1000) {
+            throw new NotFoundException("You can not using this method");
+        }
         return user;
     }
 
